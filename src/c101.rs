@@ -1,11 +1,9 @@
 extern crate base64;
 extern crate hex;
 
-pub fn solve(input: &str) -> String {
-    // we turn the input string into an array of bytes (0-255) to work with
-    // raw bytes instead of relying on the string to be hex-encoded
-    let decoded_bytes =
-        hex::decode(input.as_bytes()).expect("Error while decoding expected hex string");
+// we only accept raw bytes (0-255) instead of relying on the input to be a hex-encoded string
+pub fn solve(input: &[u8]) -> String {
+    let decoded_bytes = hex::decode(input).expect("Error while decoding expected hex string");
 
     println!("{:?}", decoded_bytes);
     println!("{}", std::str::from_utf8(decoded_bytes.as_slice()).unwrap());
@@ -25,6 +23,6 @@ mod test {
 
         dbg!(&input);
 
-        assert_eq!(solve(&input), expected_output);
+        assert_eq!(solve(&input.as_bytes()), expected_output);
     }
 }
