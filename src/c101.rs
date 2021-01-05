@@ -2,12 +2,15 @@ extern crate base64;
 extern crate hex;
 
 pub fn solve(input: &str) -> String {
-    let decoded_hex =
+    // we turn the input string into an array of bytes (0-255) to work with
+    // raw bytes instead of relying on the string to be hex-encoded
+    let decoded_bytes =
         hex::decode(input.as_bytes()).expect("Error while decoding expected hex string");
 
-    println!("{:?}", decoded_hex);
+    println!("{:?}", decoded_bytes);
+    println!("{}", std::str::from_utf8(decoded_bytes.as_slice()).unwrap());
 
-    base64::encode(decoded_hex)
+    base64::encode(decoded_bytes)
 }
 
 #[cfg(test)]
