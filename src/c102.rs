@@ -1,22 +1,23 @@
-pub fn solve(input_a: &[u8], input_b: &[u8]) -> String {
-    // let decoded_bytes_a = hex::decode(input).expect("Error while decoding expected hex string");
-    // let decoded_bytes_b = hex::decode(input).expect("Error while decoding expected hex string");
-
-    "test".to_owned()
-}
-
 #[cfg(test)]
 mod test {
-    // use super::*;
-    // use crate::utils::read_input;
+    use crate::utils::{decode_hex, encode_hex, encode_utf8, fixed_xor, read_input};
 
     #[test]
-    fn fixed_xor() {
-        // let inputs = read_multi_input("102");
-        let expected_output = "746865206b696420646f6e277420706c6179";
+    fn fixed_xor_works() {
+        let inputs = read_input("102");
+        let mut lines = inputs.lines();
+        let a = lines.next().expect("Line 1 missing");
+        let b = lines.next().expect("Line 2 missing");
 
-        // dbg!(&inputs);
+        let decoded_a = decode_hex(a.as_bytes());
+        let decoded_b = decode_hex(b.as_bytes());
 
-        // assert_eq!(solve(&inputs.next(), &inputs.next()), expected_output);
+        let result = fixed_xor(&decoded_a, &decoded_b);
+
+        println!("{}", encode_utf8(decoded_a.as_slice())); // KSSP
+        println!("{}", encode_utf8(decoded_b.as_slice())); // hit the bull's eye
+        println!("{}", encode_utf8(result.as_slice())); //    the kid don't play
+
+        assert_eq!(encode_hex(&result), "746865206b696420646f6e277420706c6179");
     }
 }
